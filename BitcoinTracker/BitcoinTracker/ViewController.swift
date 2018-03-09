@@ -20,6 +20,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBOutlet weak var currencyPicker: UIPickerView!
     @IBOutlet weak var bitcoinPriceLabel: UILabel!
+    @IBOutlet weak var dayBitcoinPriceChangeLabel: UILabel!
+    @IBOutlet weak var weekBitcoinPriceChangeLabel: UILabel!
+    @IBOutlet weak var monthBitcoinPriceChangeLabel: UILabel!
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -44,7 +47,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             if response.result.isSuccess {
                 print("Success! Got back Bitcoin data")
                 let bitcoinJSON : JSON = JSON(response.result.value!)
-                self.updateBitcoinData(json: bitcoinJSON)
+                print(bitcoinJSON)
+                self.updateBitcoinAveragePrice(json: bitcoinJSON)
+                self.updateBitcoinDailyPriceChange(json: bitcoinJSON)
+                self.updateBitcoinWeeklyPriceChange(json: bitcoinJSON)
+                self.updateBitcoinMonthlyPriceChange(json: bitcoinJSON)
             } else {
                 print("Error:\(String(describing: response.result.error))")
                 self.bitcoinPriceLabel.text = "Connection Issues"
@@ -52,11 +59,35 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
-    func updateBitcoinData(json: JSON) {
-        if let bitcoinResult = json["averages"]["day"].double {
-            bitcoinPriceLabel.text = "\(currencySelected)\(bitcoinResult)"
+    func updateBitcoinAveragePrice(json: JSON) {
+        if let bitcoinAveragePrice = json["averages"]["day"].double {
+            bitcoinPriceLabel.text = "\(currencySelected)\(bitcoinAveragePrice)"
         } else {
             bitcoinPriceLabel.text = "Price Unavailable"
+        }
+    }
+
+    func updateBitcoinDailyPriceChange(json: JSON) {
+        if let bitcoinDailyPriceChange = json["changes"]["price"]["day"].double {
+            dayBitcoinPriceChangeLabel.text = "\(currencySelected)\(bitcoinDailyPriceChange)"
+        } else {
+            dayBitcoinPriceChangeLabel.text = "Price Unavailable"
+        }
+    }
+
+    func updateBitcoinWeeklyPriceChange(json: JSON) {
+        if let bitcoinWeeklyPriceChange = json["changes"]["price"]["week"].double {
+            weekBitcoinPriceChangeLabel.text = "\(currencySelected)\(bitcoinWeeklyPriceChange)"
+        } else {
+            weekBitcoinPriceChangeLabel.text = "Price Unavailable"
+        }
+    }
+    
+    func updateBitcoinMonthlyPriceChange(json: JSON) {
+        if let bitcoinMonthlyPriceChange = json["changes"]["price"]["month"].double {
+            monthBitcoinPriceChangeLabel.text = "\(currencySelected)\(bitcoinMonthlyPriceChange)"
+        } else {
+            monthBitcoinPriceChangeLabel.text = "Price Unavailable"
         }
     }
 
