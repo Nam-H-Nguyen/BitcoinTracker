@@ -2,7 +2,7 @@
 Build iOS 11 Bitcoin Tracker App using Swift 4
 
 ## Finished App
-![Finished App](http://i.giphy.com/l0HlQGzz2MQCKIBI4.gif "BitcoinTracker, a weather app, written in Swift 4 for iOS 11")
+![Finished App](https://github.com/Nam-H-Nguyen/BitcoinTracker/blob/master/bitcoin-app.gif "BitcoinTracker, a weather app, written in Swift 4 for iOS 11")
 
 
 ### Steps to run the 📱 app: ###
